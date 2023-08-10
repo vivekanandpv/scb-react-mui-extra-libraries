@@ -1,0 +1,9 @@
+npm install @mui/material @emotion/react @emotion/styled
+npm install @mui/x-data-grid
+npm install @mui/x-date-pickers
+npm install dayjs
+npm install @mui/x-charts
+npm install react-hot-toast
+npm install moment
+npm install luxon
+
