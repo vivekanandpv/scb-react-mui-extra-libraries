@@ -5,22 +5,29 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { useController } from 'react-hook-form';
 import { DateTime } from 'luxon';
+import { getDateFromString } from './date-utils';
 
 const AppDatePicker = React.forwardRef((props, ref) => {
   const { error, label, format, name, control, slotProps } = props;
 
-  const { field } = useController({ name, control });
+  const { field } = useController({
+    name,
+    control,
+    rules: {
+      ...props.validationRules,
+    },
+  });
 
   const getMinDate = () => {
-    return props.minDate ? DateTime.fromISO(props.minDate) : null;
+    return getDateFromString(props.minDate);
   };
 
   const getMaxDate = () => {
-    return props.maxDate ? DateTime.fromISO(props.maxDate) : null;
+    return getDateFromString(props.maxDate);
   };
 
   const getDateFromForm = () => {
-    return DateTime.fromISO(field.value);
+    return getDateFromString(field.value);
   };
 
   const setISODateInForm = (v) => {
@@ -35,7 +42,7 @@ const AppDatePicker = React.forwardRef((props, ref) => {
           format={format}
           onChange={setISODateInForm}
           onBlur={field.onBlur}
-          value={field.value}
+          value={getDateFromForm()}
           inputRef={field.ref}
           name={field.name}
           slotProps={

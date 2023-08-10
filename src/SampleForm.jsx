@@ -2,8 +2,8 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { DevTool } from '@hookform/devtools';
 import TextField from '@mui/material/TextField';
-import GangaDatePicker from './GangaDatePicker';
-import AppDatePicker from './GangaDatePicker';
+import AppDatePicker from './AppDatePicker';
+import { isWithinRange } from './date-utils';
 
 const SampleForm = (props) => {
   const { register, control, handleSubmit, reset, formState, setValue } =
@@ -11,7 +11,7 @@ const SampleForm = (props) => {
       defaultValues: {
         fullName: '',
         age: null,
-        dateOfJoining: null,
+        dateOfJoining: '',
         newsletter: false,
         language: 'en',
         rating: 'good',
@@ -94,9 +94,20 @@ const SampleForm = (props) => {
             format='dd-MM-yyyy'
             control={control}
             name='dateOfJoining'
-            error={errors.dateOfJoining?.message}
-            minDate='2023-03-15'
-            maxDate='2023-05-15'
+            errorMessage={errors.dateOfJoining?.message}
+            // minDate='2023-03-15'
+            // maxDate='2023-05-15'
+            validationRules={{
+              required: 'Date of joining is required',
+              validate: {
+                acceptableDateRange: (fv) => {
+                  return (
+                    isWithinRange(fv, '2023-03-15', '2023-05-15') ||
+                    'Must fall between 15-03-2023 and 15-05-2023'
+                  );
+                },
+              },
+            }}
           />
         </div>
 
