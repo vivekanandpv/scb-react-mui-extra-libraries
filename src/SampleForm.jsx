@@ -4,8 +4,13 @@ import { DevTool } from '@hookform/devtools';
 import TextField from '@mui/material/TextField';
 import AppDatePicker from './AppDatePicker';
 import { isWithinRange } from './date-utils';
+import toast, { Toaster } from 'react-hot-toast';
 
 const SampleForm = (props) => {
+  const notify = (state, message) =>
+    toast[state](message, {
+      duration: 1500,
+    });
   const { register, control, handleSubmit, reset, formState, setValue } =
     useForm({
       defaultValues: {
@@ -31,10 +36,12 @@ const SampleForm = (props) => {
 
   const submit = (data) => {
     console.log('form submitted', data);
+    notify('success', 'Form submitted successfully');
   };
 
   const submissionError = (errors) => {
     console.log('submission errors', errors);
+    notify('error', 'Form is invalid');
   };
 
   React.useEffect(() => {
@@ -204,6 +211,7 @@ const SampleForm = (props) => {
         <button className='btn btn-primary btn-sm'>Submit</button>
       </form>
       <DevTool control={control} />
+      <Toaster />
     </>
   );
 };
