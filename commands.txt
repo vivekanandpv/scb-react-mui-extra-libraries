@@ -7,3 +7,7 @@ npm install react-hot-toast
 npm install moment
 npm install luxon
 
+npm install ag-grid-community
+npm install ag-grid-react
+
+
